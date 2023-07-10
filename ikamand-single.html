@@ -24,7 +24,15 @@ function cmdKamadoState()
     });
   };
   refreshState();
-  setInterval(() => refreshState(), 1000*10 );
+  setInterval(() => refreshState(), 1000 * 10);
+}
+
+function cmdKamadoInfo()
+{
+  iKamandGeInfo().then(r =>
+  {
+    GuiWriteResult(r)
+  });
 }
 
 function cmdKamadoStart()
@@ -43,6 +51,27 @@ function cmdKamadoStop()
   GuiWriteResult("Stopping...");
   iKamandStopCook();
   GuiWriteResult("Stopped");
+}
+
+function cmdKamadoQueryWifis()
+{
+  GuiWriteResult("Querying wifi...");
+  iKamandQueryWifis().then(r =>
+  {
+    GuiWriteResult(r);
+  });
+}
+
+function cmdKamadoSetWifi()
+{
+  const wifi_ssid = document.getElementById("wifi_ssid").value;
+  const wifi_pass = document.getElementById("wifi_pass").value;
+  const wifi_user = document.getElementById("wifi_user").value;
+  GuiWriteResult("Configuring wifi...");
+  iKamandSetupWifi(wifi_ssid, wifi_pass, wifi_user).then(r =>
+  {
+    GuiWriteResult(r);
+  });
 }
 
 function CmdSetTargetPit(value)
@@ -138,6 +167,15 @@ function iKamandTranslateState(rawText)
   return dictionary;
 }
 
+function iKamandGeInfo()
+{
+  GuiWriteResult("Fetching status...");
+  console.log(getFullUrl("/cgi-bin/info"));
+  return fetchData(
+    getFullUrl("/cgi-bin/info")
+  );
+}
+
 function iKamandGetStatus()
 {
   GuiWriteResult("Fetching status...");
@@ -166,26 +204,14 @@ function iKamandStartCook(options)
     'Content-Type': 'application/x-www-form-urlencoded',
   };
 
-  fetchAndDecodeData(getFullUrl("/cgi-bin/cook"), {
+  return fetchAndDecodeData(getFullUrl("/cgi-bin/cook"), {
     method: 'POST',
     body: payload,
     headers: headers,
-  })
-    .then((response) =>
-    {
-      if (!response.ok)
-      {
-        throw new Error('Request failed');
-      }
-      console.log('ikamand response:', response.text());
-    })
-    .catch((error) =>
-    {
-      GuiWriteResult('Request failed:', error.message);
-    });
+  });
 }
 
-function iKamandStopCook(ip)
+function iKamandStopCook()
 {
   const payload = new URLSearchParams();
   payload.set('acs', '0');
@@ -201,23 +227,35 @@ function iKamandStopCook(ip)
     'Content-Type': 'application/x-www-form-urlencoded',
   };
 
-  fetchAndDecodeData(getFullUrl("/cgi-bin/cook"), {
+  return fetchAndDecodeData(getFullUrl("/cgi-bin/cook"), {
     method: 'POST',
     body: payload,
     headers: headers,
   })
-    .then((response) =>
-    {
-      if (!response.ok)
-      {
-        throw new Error('Request failed');
-      }
-      console.log('ikamand response:', response.text());
-    })
-    .catch((error) =>
-    {
-      GuiWriteResult('Request failed:', error.message);
-    });
+}
+
+function iKamandQueryWifis()
+{
+  return fetchData(getFullUrl("/cgi-bin/wifi_list"), {
+    method: 'GET',
+  });
+}
+
+function iKamandSetupWifi(ssid, pass, user)
+{
+  const payload = new URLSearchParams();
+  payload.set('ssid', btoa(ssid));
+  payload.set('pass', btoa(pass));
+  payload.set('user', "" /*btoa(uuidv4())*/);
+  
+  const headers = {
+    'Content-Type': 'application/x-www-form-urlencoded',
+  };
+  return fetchData(getFullUrl("/cgi-bin/netset"), {
+    method: 'POST',
+    body: payload,
+    headers: headers,
+  });
 }
 
 /////////////// helpers
@@ -271,10 +309,6 @@ function uuidv4()
     <th>action</th>
     </header>
     <tr>
-      <td>IP ADDRESS</td>
-      <td><input id="ip" value="192.168.10.1"/></input>
-    </tr>
-    <tr>
       <td>Target Pit Temperature</td>
       <td><input id="target_pit_temperature" value="120"/></input>
         <td><button onclick="CmdSetTargetPit(120)">120</button><button onclick="CmdSetTargetPit(140)">140</button><button onclick="CmdSetTargetPit(160)">160</button><button onclick="CmdSetTargetPit(180)">180</button><button onclick="CmdSetTargetPit(240)">240</button></td>
@@ -295,6 +329,42 @@ function uuidv4()
      <tr>
       <td>stop</td>
       <td><button onclick="cmdKamadoStop()">Stop</button></td>
+    </tr>
+  </table>
+
+  <h3>Configuration</h3>
+  <table>
+    <header>
+    <th>name</th>
+    <th>value</th>
+    </header>
+    <tr>
+      <td>IP ADDRESS</td>
+      <td><input id="ip" value="192.168.10.1"/></input>
+    </tr>
+    <tr>
+      <td>WIFI SSID</td>
+      <td><input id="wifi_ssid" value=""/></input>
+    </tr>
+    <tr>
+      <td>WIFI PASS</td>
+      <td><input id="wifi_pass" value=""/></input>
+    </tr>
+    <tr>
+      <td>WIFI USER (if necessary)</td>
+      <td><input id="wifi_user" value=""/></input>
+    </tr>
+    <tr>
+      <td>get state</td>
+      <td><button onclick="cmdKamadoInfo()">Get info</button></td>
+    </tr>     
+    <tr>
+      <td>query wifi networks</td>
+      <td><button onclick="cmdKamadoQueryWifis()">Get wifi networks</button></td>
+    </tr>
+     <tr>
+      <td>set wifi networs</td>
+      <td><button onclick="cmdKamadoSetWifi()">Set wifi network</button></td>
     </tr>
   </table>
 

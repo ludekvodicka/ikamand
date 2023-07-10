@@ -20,7 +20,15 @@ function cmdKamadoState()
     });
   };
   refreshState();
-  setInterval(() => refreshState(), 1000*10 );
+  setInterval(() => refreshState(), 1000 * 10);
+}
+
+function cmdKamadoInfo()
+{
+  iKamandGeInfo().then(r =>
+  {
+    GuiWriteResult(r)
+  });
 }
 
 function cmdKamadoStart()
@@ -39,6 +47,27 @@ function cmdKamadoStop()
   GuiWriteResult("Stopping...");
   iKamandStopCook();
   GuiWriteResult("Stopped");
+}
+
+function cmdKamadoQueryWifis()
+{
+  GuiWriteResult("Querying wifi...");
+  iKamandQueryWifis().then(r =>
+  {
+    GuiWriteResult(r);
+  });
+}
+
+function cmdKamadoSetWifi()
+{
+  const wifi_ssid = document.getElementById("wifi_ssid").value;
+  const wifi_pass = document.getElementById("wifi_pass").value;
+  const wifi_user = document.getElementById("wifi_user").value;
+  GuiWriteResult("Configuring wifi...");
+  iKamandSetupWifi(wifi_ssid, wifi_pass, wifi_user).then(r =>
+  {
+    GuiWriteResult(r);
+  });
 }
 
 function CmdSetTargetPit(value)
@@ -134,6 +163,15 @@ function iKamandTranslateState(rawText)
   return dictionary;
 }
 
+function iKamandGeInfo()
+{
+  GuiWriteResult("Fetching status...");
+  console.log(getFullUrl("/cgi-bin/info"));
+  return fetchData(
+    getFullUrl("/cgi-bin/info")
+  );
+}
+
 function iKamandGetStatus()
 {
   GuiWriteResult("Fetching status...");
@@ -162,26 +200,14 @@ function iKamandStartCook(options)
     'Content-Type': 'application/x-www-form-urlencoded',
   };
 
-  fetchAndDecodeData(getFullUrl("/cgi-bin/cook"), {
+  return fetchAndDecodeData(getFullUrl("/cgi-bin/cook"), {
     method: 'POST',
     body: payload,
     headers: headers,
-  })
-    .then((response) =>
-    {
-      if (!response.ok)
-      {
-        throw new Error('Request failed');
-      }
-      console.log('ikamand response:', response.text());
-    })
-    .catch((error) =>
-    {
-      GuiWriteResult('Request failed:', error.message);
-    });
+  });
 }
 
-function iKamandStopCook(ip)
+function iKamandStopCook()
 {
   const payload = new URLSearchParams();
   payload.set('acs', '0');
@@ -197,23 +223,35 @@ function iKamandStopCook(ip)
     'Content-Type': 'application/x-www-form-urlencoded',
   };
 
-  fetchAndDecodeData(getFullUrl("/cgi-bin/cook"), {
+  return fetchAndDecodeData(getFullUrl("/cgi-bin/cook"), {
     method: 'POST',
     body: payload,
     headers: headers,
   })
-    .then((response) =>
-    {
-      if (!response.ok)
-      {
-        throw new Error('Request failed');
-      }
-      console.log('ikamand response:', response.text());
-    })
-    .catch((error) =>
-    {
-      GuiWriteResult('Request failed:', error.message);
-    });
+}
+
+function iKamandQueryWifis()
+{
+  return fetchData(getFullUrl("/cgi-bin/wifi_list"), {
+    method: 'GET',
+  });
+}
+
+function iKamandSetupWifi(ssid, pass, user)
+{
+  const payload = new URLSearchParams();
+  payload.set('ssid', btoa(ssid));
+  payload.set('pass', btoa(pass));
+  payload.set('user', "" /*btoa(uuidv4())*/);
+  
+  const headers = {
+    'Content-Type': 'application/x-www-form-urlencoded',
+  };
+  return fetchData(getFullUrl("/cgi-bin/netset"), {
+    method: 'POST',
+    body: payload,
+    headers: headers,
+  });
 }
 
 /////////////// helpers

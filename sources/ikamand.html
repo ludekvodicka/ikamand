@@ -43,10 +43,6 @@
     <th>action</th>
     </header>
     <tr>
-      <td>IP ADDRESS</td>
-      <td><input id="ip" value="192.168.10.1"/></input>
-    </tr>
-    <tr>
       <td>Target Pit Temperature</td>
       <td><input id="target_pit_temperature" value="120"/></input>
         <td><button onclick="CmdSetTargetPit(120)">120</button><button onclick="CmdSetTargetPit(140)">140</button><button onclick="CmdSetTargetPit(160)">160</button><button onclick="CmdSetTargetPit(180)">180</button><button onclick="CmdSetTargetPit(240)">240</button></td>
@@ -67,6 +63,42 @@
      <tr>
       <td>stop</td>
       <td><button onclick="cmdKamadoStop()">Stop</button></td>
+    </tr>
+  </table>
+
+  <h3>Configuration</h3>
+  <table>
+    <header>
+    <th>name</th>
+    <th>value</th>
+    </header>
+    <tr>
+      <td>IP ADDRESS</td>
+      <td><input id="ip" value="192.168.10.1"/></input>
+    </tr>
+    <tr>
+      <td>WIFI SSID</td>
+      <td><input id="wifi_ssid" value=""/></input>
+    </tr>
+    <tr>
+      <td>WIFI PASS</td>
+      <td><input id="wifi_pass" value=""/></input>
+    </tr>
+    <tr>
+      <td>WIFI USER (if necessary)</td>
+      <td><input id="wifi_user" value=""/></input>
+    </tr>
+    <tr>
+      <td>get state</td>
+      <td><button onclick="cmdKamadoInfo()">Get info</button></td>
+    </tr>     
+    <tr>
+      <td>query wifi networks</td>
+      <td><button onclick="cmdKamadoQueryWifis()">Get wifi networks</button></td>
+    </tr>
+     <tr>
+      <td>set wifi networs</td>
+      <td><button onclick="cmdKamadoSetWifi()">Set wifi network</button></td>
     </tr>
   </table>
 
