@@ -56,8 +56,8 @@ function getFullUrl(path)
 {
   const ip = document.getElementById("ip").value;
 
-  //return `http://${ip}` + path;
-  return "https://ikamand.free.beeceptor.com" + path;
+  return `http://${ip}` + path;
+  //return "https://ikamand.free.beeceptor.com" + path;
 }
 
 function fetchData(url, options)
