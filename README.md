@@ -4,7 +4,7 @@ This app is a replacement for the iKamand application. The source code is based 
 
 This is my attempt to quickly resolve the issue of the missing iKamand cloud and the non-functional application.
 
-![Screenshot](./img/screenshot.png)
+![Screenshot](./img/screenshot2.png)
 
 ## Usage
 
