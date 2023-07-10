@@ -40,4 +40,4 @@ Currently there is a issue with CORS. For now, it's necessary to [install plugin
 
 ### Complete communication dump for configuring wifi network
 
-https://gist.github.com/pheller/380200f0e92c77a473715941b4bb6e4a?fbclid=IwAR05vqCH8cUQ2HXIAuGEHMatSjJPOQv7D6FyOCi2pebpal-66Y2JAHIyAkY
+https://gist.github.com/pheller/2135a7e16c0380393076cf5535dd5f47?fbclid=IwAR145Js_WgWKxn8UNrfDaq3_ov5TcseWQCNBkf-jqB2MZoUPrf_6Txx7dno
