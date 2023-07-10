@@ -1,0 +1,77 @@
+<html>
+
+<head>
+<script src="./ikamand.js"></script>
+</head>
+
+<body>
+  <table>
+    <header>
+      <th>state</th>
+      <th>value</th>
+    </header>
+    <tr>
+      <td>fan speed</td>
+      <td><label id="stateFanSpeed">-</label></td>
+    </tr>
+    <tr>
+      <td>probe pit</td>
+      <td><label id="stateProbePit">- / -</label></td>
+    </tr>
+    <tr>
+      <td>probe1</td>
+      <td><label id="stateProbe1">-</label></td>
+    </tr>
+    <tr>
+      <td>probe2</td>
+      <td><label id="stateProbe2">-</label></td>
+    </tr>
+    <tr>
+      <td>probe3</td>
+      <td><label id="stateProbe3">-</label></td>
+    </tr>    
+     <tr>
+      <td>other</td>
+      <td><label id="stateOther">-</label></td>
+    </tr>
+  </table>
+
+  <table>
+    <header>
+    <th>name</th>
+    <th>value</th>
+    <th>action</th>
+    </header>
+    <tr>
+      <td>IP ADDRESS</td>
+      <td><input id="ip" value="192.168.10.1"/></input>
+    </tr>
+    <tr>
+      <td>Target Pit Temperature</td>
+      <td><input id="target_pit_temperature" value="120"/></input>
+        <td><button onclick="CmdSetTargetPit(120)">120</button><button onclick="CmdSetTargetPit(140)">140</button><button onclick="CmdSetTargetPit(160)">160</button><button onclick="CmdSetTargetPit(180)">180</button><button onclick="CmdSetTargetPit(240)">240</button></td>
+    </tr>
+    <tr>
+      <td>Target Food Temperature</td>
+      <td><input id="target_food_temperature" value="60"/></input>
+        <td><button onclick="CmdSetTargetFood(60)">60</button><button onclick="CmdSetTargetFood(70)">70</button><button onclick="CmdSetTargetFood(80)">80</button></td>
+    </tr>
+    <tr>
+      <td>get state</td>
+      <td><button onclick="cmdKamadoState()">Get State</button></td>
+    </tr>
+     <tr>
+      <td>start</td>
+      <td><button onclick="cmdKamadoStart()">Start</button></td>
+    </tr>
+     <tr>
+      <td>stop</td>
+      <td><button onclick="cmdKamadoStop()">Stop</button></td>
+    </tr>
+  </table>
+
+  <h4>result</h4>
+  <textarea id="result" style="width: 100%; height: 500px">
+  </textarea>
+</body>
+</html>
