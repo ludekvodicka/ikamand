@@ -18,3 +18,8 @@ If your iKamand is still connected to a Wi-Fi network, you may be able to contro
 ## Notes
 
 Please note that I am not an HTML frontend developer, so the code may not be as clean and organized as it should be. This was my attempt to quickly resolve the issue with the non-functional iKamand device in just a few hours.
+
+
+## Issues
+
+Currently there is a issue with CORS. For now, it's necessary to [install plugin](https://chrome.google.com/webstore/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino) to disable cors check to be able to use it. I'm not sure if this can be solved by any other way than some proxy or own server.
