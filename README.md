@@ -25,3 +25,19 @@ Please note that I am not an HTML frontend developer, so the code may not be as 
 ## Issues
 
 Currently there is a issue with CORS. For now, it's necessary to [install plugin](https://chrome.google.com/webstore/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino) to disable cors check to be able to use it. I'm not sure if this can be solved by any other way than some proxy or own server.
+
+## Known iKamand endpoints
+
+- http://192.168.10.1/cgi-bin/info
+- http://192.168.10.1/cgi-bin/data
+- http://192.168.10.1/cgi-bin/cook
+- http://192.168.10.1/cgi-bin/wifi_list
+- POST http://192.168.10.1//cgi-bin/netset
+
+### Data for netset (from decompiled apk):
+
+`"http://192.168.10.1:80/cgi-bin/netset",6e4,{method:"POST",headers:s,body:"ssid="+n+"&pass="+a+"&user="+t}));`
+
+### Complete communication dump for configuring wifi network
+
+https://gist.github.com/pheller/380200f0e92c77a473715941b4bb6e4a?fbclid=IwAR05vqCH8cUQ2HXIAuGEHMatSjJPOQv7D6FyOCi2pebpal-66Y2JAHIyAkY
