@@ -80,6 +80,11 @@ function CmdSetTargetFood(value)
   return document.getElementById("target_food_temperature").value = value;
 }
 
+function CmdSetIp(value)
+{
+  return document.getElementById("ip").value = value;
+}
+
 /////////////// IKAMAND
 function getFullUrl(path)
 {

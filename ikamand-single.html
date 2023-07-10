@@ -84,6 +84,11 @@ function CmdSetTargetFood(value)
   return document.getElementById("target_food_temperature").value = value;
 }
 
+function CmdSetIp(value)
+{
+  return document.getElementById("ip").value = value;
+}
+
 /////////////// IKAMAND
 function getFullUrl(path)
 {
@@ -341,7 +346,8 @@ function uuidv4()
     <tr>
       <td>IP ADDRESS</td>
       <td><input id="ip" value="192.168.10.1"/></input>
-    </tr>
+      <td><button onclick="CmdSetIp('192.168.10.1')">192.168.10.1</button><button onclick="CmdSetIp('192.168.1.150')">192.168.1.150</button></td>
+     </tr>
     <tr>
       <td>WIFI SSID</td>
       <td><input id="wifi_ssid" value=""/></input>
