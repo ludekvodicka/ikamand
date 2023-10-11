@@ -98,7 +98,7 @@ function fetchData(url, options)
 {
   options = {
     ...options,
-    //mode: "no-cors"
+    mode: "no-cors"
   };
   return fetch(url, options)
     .then(response =>
